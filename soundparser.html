@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SoundParser</title>
+	<script type="text/javascript" src="js/libs/jquery.js"></script>
+	<script type="text/javascript" src="js/libs/paper.js"></script>
+	<script type="text/javascript" src="js/soundparser.js"></script>
+	<script type="text/javascript">
+	var MySound;
+	$(document).ready(function () {
+		
+		MySound = new SoundParser('music.ogg');
+//		MySound.start();
+		
+		// Display Lapsed time to make sure audio is referenced properly
+		var currentTimeNode = document.querySelector('#current-time');
+		MySound.audio.addEventListener('timeupdate', function(e) {
+		  var currTime = this.currentTime;
+		  currentTimeNode.textContent = parseInt(currTime / 60) + ':' + parseInt(currTime % 60);
+		}, false);
+		
+	});
+	</script>
+</head>
+<body>
+
+<input type="button" value="start()" onclick="MySound.start()"/>
+<input type="button" value="stop()" onclick="MySound.stop()"/>
+
+<span>Time: <span id="current-time"></span></span>
+
+<br/><br/>
+
+<canvas id="visual"></canvas>
+
+</body>
+</html>

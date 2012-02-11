@@ -1,0 +1,225 @@
+/* _________________________________________________
+
+Influenced By:
+
+320 and up 			- http://stuffandnonsense.co.uk/projects/320andup/	 
+Normalise.css 	 	- http://necolas.github.com/normalize.css/
+Twitter Bootstrap	- http://twitter.github.com/bootstrap/
+HTML5 Boilerplate	- http://html5boilerplate.com/
+_____________________________________________________
+
+1 	ROOT & QUICKFIXES
+2 	TYPOGRAPHY
+3 	EMBEDDED CONTENT 
+4 	FORMS
+5 	LAYOUT
+6 	OBJECTS
+7 	480px
+8 	600px 
+9 	780px 
+10 	992px 
+11 	1382px 
+12 	2x 
+
+*/
+
+
+// LESS: colors, font sizes, widths
+	@import "config.less";		
+	@import "helpers.less";
+	
+
+
+
+
+/* 1. ROOT ============================================================================= */
+
+
+article, aside, details, figcaption, figure, footer, header, hgroup, nav, section { display: block; }
+audio, canvas, video 	{ display: inline-block; *display: inline; *zoom: 1;}
+audio:not([controls]) 	{ display: none; }
+[hidden] 				{ display: none; }
+body 					{ margin: 0; }
+table 					{  border-collapse: collapse; border-spacing: 0; }
+
+
+
+
+
+
+
+/* 2. TYPOGRAPHY (320 and Up typography defaults) ==================================================== */
+
+
+html 									{ font-size: 100%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; -webkit-overflow-scrolling : touch; -webkit-tap-highlight-color : #fff ;}
+html, button, input, select, textarea 	{ font-family: sans-serif;}
+
+
+
+	/* Links */
+	a:focus 		{ outline: thin dotted;}
+	a:hover,
+	a:active 		{ outline: 0; }
+
+	/* Headings */
+		h1 			{ font-size: 2em; margin: 0.67em 0; }
+		h2 			{ font-size: 1.5em; margin: 0.83em 0; }
+		h3 			{ font-size: 1.17em; margin: 1em 0; }
+		h4 			{ font-size: 1em; margin: 1.33em 0; }
+		h5 			{ font-size: 0.83em; margin: 1.67em 0; }
+		h6 			{ font-size: 0.75em; margin: 2.33em 0; }
+
+	/* Inline */
+		strong 		{ font-weight: bold; }
+		small 		{ font-size: 75%; }
+		mark 		{ background: #ff0; color: #000;}
+
+		sup 		{ font-size: 75%; line-height: 0; position: relative; vertical-align: baseline; top: -0.5em; }
+		sub 		{ bottom: -0.25em; }
+
+		abbr[title] { border-bottom: 1px dotted; cursor:help;}
+
+	/* Block */
+		b, 
+		blockquote 	{ margin: 1em 40px; }
+
+		pre,
+		code,
+		samp 		{ font-family: monospace, serif; _font-family: 'courier new', monospace; font-size: 1em; }
+		pre 		{ white-space: pre; white-space: pre-wrap; word-wrap: break-word; }
+
+	/* Quotes */
+		b, 
+		blockquote 	{ margin: 1em 40px; }
+		q 			{ quotes: none; }
+		q:before,
+		q:after 	{ content: ''; content: none; }
+
+	/* Lists */
+		ul,
+		ol 			{ margin-left: 0; padding: 0 0 0 40px; }
+		dd 			{ margin: 0 0 0 40px; }
+		nav ul,
+		nav ol 		{ list-style: none; list-style-image: none; }
+
+
+
+
+
+
+
+/* 3.EMBEDED CONTENT ============================================================================= */
+
+
+img 			{ border: 0;  -ms-interpolation-mode: bicubic; }
+svg:not(:root) 	{ overflow: hidden; }
+figure 			{ margin: 0; }
+
+
+
+
+
+/* 4 FORMS		============================================================================= */
+
+form 			{ margin: 0; }
+fieldset 		{ border: 1px solid #c0c0c0; margin: 0 2px; padding: 0.35em 0.625em 0.75em; }
+legend 			{ border: 0; padding: 0; white-space: normal;  *margin-left: -7px; }
+
+	/* Buttons */
+	button,
+	input,
+	select,
+	textarea 		{ font-size: 100%; margin: 0; vertical-align: baseline; *vertical-align: middle; }
+	button,
+	input 			{ line-height: normal; }
+
+	button,
+	input[type="button"], 
+	input[type="reset"], 
+	input[type="submit"] 		{ cursor: pointer;  -webkit-appearance: button;  *overflow: visible;   }
+	button[disabled],
+	input[disabled] 			{ cursor: default; }
+	button::-moz-focus-inner	{ border: 0; padding:0; }
+
+	/* Inputs */
+	input[type="checkbox"],
+	input[type="radio"] 								{ box-sizing: border-box; padding: 0; *height: 13px;  *width: 13px; }
+	input[type="search"] 								{ -webkit-appearance: textfield; -moz-box-sizing: content-box; -webkit-box-sizing: content-box;  box-sizing: content-box; }
+	input[type="search"]::-webkit-search-decoration,
+	input[type="search"]::-webkit-search-cancel-button 	{ -webkit-appearance: none; }
+	textarea 											{ overflow: auto;  vertical-align: top; }
+	
+	
+
+
+
+
+
+
+/* 5 LAYOUT		 	============================================================================= */
+
+
+
+
+
+
+
+
+/* 6 OBJECTS	 	============================================================================= */
+
+
+
+
+
+
+
+
+/* 7 PRINT ============================================================================= */
+@media print {
+
+
+
+
+}
+
+
+
+/* 8 480px ============================================================================= */
+@media only screen and (min-width: 480px) {
+	
+
+
+}
+
+
+
+
+
+
+/* 9 600px ============================================================================= */
+@media only screen and (min-width: 600px) {
+		
+
+
+}
+
+/* 10 780px ============================================================================= */
+@media only screen and (min-width: 768px) {
+	
+
+
+
+}
+
+/* 11 992px ============================================================================= */
+@media only screen and (min-width: 992px) {
+
+
+}
+
+/* 12 1382px ============================================================================= */
+
+@media only screen and (min-width: 1382px) {
+
+
+}

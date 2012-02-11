@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>SoundParser</title>
-	<script type="text/javascript" src="js/soundparser.js?r=1"></script>
+	<script type="text/javascript" src="js/soundparser.js?r=8"></script>
 	<style type="text/css">
 	#visual {
 		border: 1px solid #999;
@@ -46,31 +46,9 @@ window.addEventListener('load', function () {
 	canvas.width = 1024;
 	canvas.height = 320;
 	
-	// Simple example
-	/*
-	var colors = ['#f00', '#0f0', '#00f', '#0ff', '#ff0', '#f0f', '#ccc', '#999', '#000', '#090', '#900', '#009', '#099', '#909'];
-	setInterval(function () {
-		cx.clearRect(0, 0, canvas.width, canvas.height);
-		var d = MySound.getFrequencyData();
-		cx.lineWidth = 4;
-		for (var i = 0; i < 1024; i += 8) {
-			cx.beginPath();
-			cx.strokeStyle = colors[Math.round(Math.random() * colors.length)]
-			//cx.strokeStyle = Math.max(colors.length - 1, colors[Math.round(d[i] / 30)]);
-			cx.moveTo(i, 0);
-			cx.lineTo(i, d[i]);
-			cx.stroke();
-		}
-	}, 66);
-	*/
-	
-	// Flying Bird
 	MySound.animate({
-		name: 'flying-bird',
-		func: function () {
-			
-		},
-		fps: 
+		name: 'scale',
+		fps: 60, 
 		width: 1024,
 		height: 300,
 		canvas: canvas

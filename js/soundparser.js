@@ -13,6 +13,9 @@ var SoundParser = function (file, container) {
 		self.analyser.getByteFrequencyData(freqByteData);
 		return freqByteData;
 	}
+	self.getRawData = function () {
+		return self.getFrequencyData();
+	}
 	self.getAverageFrequency = function (bits) {
 		if (!bits) bits = 8;
 		var d = self.getFrequencyData();
@@ -21,7 +24,7 @@ var SoundParser = function (file, container) {
 		for (var i = 0; i < 1024; i += bits) {
 			t += d[i];
 		}
-		return t;
+		return t / n;
 	}
 	
 	//
@@ -30,17 +33,24 @@ var SoundParser = function (file, container) {
 	self.animate = function (params) {
 		
 		var animation = self.getAnimation(params.name);
+		self.log(params);
 		
-		if (animation) {
-			var animateObject = new SoundParserAnimateObject(params);
+		if (typeof animation == 'function') {
+			var animateObject = new SoundParserAnimateObject(params, self);
 			setInterval(animation, 1000 / animateObject.fps, animateObject);
 		}
 		
 	}
 	self.getAnimation = function (name) {
 		
-		console.error('Animation not found');
-		return false;
+		//console.error('Animation not found');
+		if (SoundParser.prototype.animations.hasOwnProperty(name)) {
+			console.log('[SoundParser]', 'Got Animation', name);
+			return SoundParser.prototype.animations[name];
+		} else {
+			console.log('[SoundParser]', 'Animation Not Found', name);
+			return false;
+		}
 		
 	}
 	
@@ -71,6 +81,11 @@ var SoundParser = function (file, container) {
 	  	self.analyser.connect(self.context.destination);
  
   	}
+  	
+  	// Logging
+  	self.log = function (a, b, c) {
+		console.log('[SoundParser]', a);
+  	}
 	
 	return self;
 
@@ -80,19 +95,56 @@ var SoundParser = function (file, container) {
 //
 //	Custom Animations
 //
-SoundParserAnimateObject = function (a) {
+SoundParserAnimateObject = function (a, p) {
 	
-	 var self = function () {}
+	var self = function () {}
+	
+	self.parser = p;
 	 
-	 self.fps = a.fps ? a.fps : 30;
-	 self.name = a.name ? a.name : 'default';
-	 self.canvas = a.canvas;
+	self.fps = a.fps ? a.fps : 30;
+	self.name = a.name ? a.name : 'default';
+	self.canvas = a.canvas;
+	self.width = a.width ? a.width : 100;
+	self.height = a.height ? a.height : 100;
 	 
-	 return self;
+	self.canvas.width = self.width;
+	self.canvas.height = self.height;
+	
+	self.context2d = self.canvas.getContext('2d');
+	 
+	return self;
 	
 }
-SoundParser.prototype.animations.flyingBird = function (ani) {
+SoundParser.prototype.animations = {};
+SoundParser.prototype.animations.default = function (ani) {
 	
+	var cx = ani.context2d;
+	cx.clearRect(0, 0, ani.canvas.width, ani.canvas.height);
+	var d = ani.parser.getFrequencyData();
+	cx.lineWidth = 4;
+	for (var i = 0; i < 1024; i += 8) {
+		cx.beginPath();
+		//cx.strokeStyle = colors[Math.round(Math.random() * colors.length)]
+		//cx.strokeStyle = Math.max(colors.length - 1, colors[Math.round(d[i] / 30)]);
+		cx.moveTo(i, ani.canvas.height - 0);
+		cx.lineTo(i, ani.canvas.height - d[i]);
+		cx.stroke();
+	}
 	
+}
+
+// Flying Bird
+SoundParser.prototype.animations.scale = function (ani) {
+	
+	var cx = ani.context2d;
+	cx.clearRect(0, 0, ani.canvas.width, ani.canvas.height);
+	
+	var avg = ani.parser.getAverageFrequency();
+	
+	if (avg) {
+		var scale = avg;
+		cx.fillRect((ani.canvas.width / 2) - (avg / 2), (ani.canvas.height / 2) - (avg / 2), avg, avg);
+		cx.stroke();
+	}
 	
 }

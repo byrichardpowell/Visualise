@@ -2,10 +2,12 @@
 <html>
 <head>
 	<title>SoundParser</title>
-	<script type="text/javascript" src="js/libs/jquery.js"></script>
-	<script type="text/javascript" src="js/libs/paper.js"></script>
-	<script type="text/javascript" src="js/soundparser.js"></script>
-
+	<script type="text/javascript" src="js/soundparser.js?r=1"></script>
+	<style type="text/css">
+	#visual {
+		border: 1px solid #999;
+	}
+	</style>
 </head>
 <body>
 
@@ -24,9 +26,7 @@
 
 <script type="text/javascript">
 var MySound;
-(function () {
-	MySound = new SoundParser('music.ogg', 'sound-con');
-})();
+MySound = new SoundParser('music.ogg', 'sound-con');
 window.addEventListener('load', function () {
 	
 	console.log('ready');
@@ -40,24 +40,41 @@ window.addEventListener('load', function () {
 	  currentTimeNode.textContent = parseInt(currTime / 60) + ':' + parseInt(currTime % 60);
 	}, false);
 	
+	// Canvas Reference
 	var canvas = document.querySelector('#visual');
 	var cx = canvas.getContext('2d');
 	canvas.width = 1024;
-	canvas.height = 240;
+	canvas.height = 320;
+	
+	// Simple example
+	/*
+	var colors = ['#f00', '#0f0', '#00f', '#0ff', '#ff0', '#f0f', '#ccc', '#999', '#000', '#090', '#900', '#009', '#099', '#909'];
 	setInterval(function () {
 		cx.clearRect(0, 0, canvas.width, canvas.height);
-		var d = MySound.getRawData();
-		cx.beginPath();
-		for (var i = 0; i < 1024; i++) {
+		var d = MySound.getFrequencyData();
+		cx.lineWidth = 4;
+		for (var i = 0; i < 1024; i += 8) {
+			cx.beginPath();
+			cx.strokeStyle = colors[Math.round(Math.random() * colors.length)]
+			//cx.strokeStyle = Math.max(colors.length - 1, colors[Math.round(d[i] / 30)]);
 			cx.moveTo(i, 0);
 			cx.lineTo(i, d[i]);
 			cx.stroke();
 		}
-	}, 10);
+	}, 66);
+	*/
 	
-	setTimeout(function () {
-		MySound.getRawData();
-	}, 500);
+	// Flying Bird
+	MySound.animate({
+		name: 'flying-bird',
+		func: function () {
+			
+		},
+		fps: 
+		width: 1024,
+		height: 300,
+		canvas: canvas
+	});
 	
 }, false);
 </script>

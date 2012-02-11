@@ -13,8 +13,8 @@ circles = function(count, size) {
 
 		var thisSize = size * i;
 
-		items[i] = new Path.Rectangle( view.center - (thisSize / 2), size * i );
-		items[i].fillColor = new RgbColor( ( 1 / count ) * i, 0.35, 0.7, 1 / (count * 0.75)); 
+		items[i] = new Path.Rectangle( view.center - (thisSize), (size * i) * 2 );
+		items[i].fillColor = new RgbColor( ( 1 / count ) * i, Math.random() * i, Math.random() * i, 1 / (count * 0.75)); 
 
 	}
 
@@ -23,9 +23,9 @@ circles = function(count, size) {
 }
 
 
-rings = circles(15, 0.95); 
+rings = circles(52, 0.8); 
 SoundDataStep = Math.floor( 1024 / rings.length ); 
-console.log( SoundDataStep );
+
 
 
 function onFrame(event) {
@@ -36,12 +36,10 @@ function onFrame(event) {
     // adding 1 to its hue:
     $.each( rings, function(i, ring) {
 
-    	var rotation = (SoundData[SoundDataStep * i] / 1024) * 180; 
+    	var thisData = SoundData[SoundDataStep * i] / 1024;
 
-    	console.log(rotation);
-
-    	ring.rotate( rotation );
-    	ring.fillColor.hue += 1;
+    	ring.rotate( thisData * 180 );
+    	ring.fillColor.hue += (thisData * 10);
 
     })
 

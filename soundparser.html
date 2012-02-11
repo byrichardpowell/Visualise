@@ -7,9 +7,10 @@
 	<script type="text/javascript" src="js/soundparser.js"></script>
 	<script type="text/javascript">
 	var MySound;
-	$(document).ready(function () {
+	window.addEventListener('load', function () {
 		
-		MySound = new SoundParser('music.ogg');
+		console.log('ready');
+		MySound = new SoundParser('music.ogg?t' + Math.random());
 //		MySound.start();
 		
 		// Display Lapsed time to make sure audio is referenced properly
@@ -19,7 +20,11 @@
 		  currentTimeNode.textContent = parseInt(currTime / 60) + ':' + parseInt(currTime % 60);
 		}, false);
 		
-	});
+		setTimeout(function () {
+			MySound.getRawData();
+		}, 500);
+		
+	}, false);
 	</script>
 </head>
 <body>

@@ -28,6 +28,14 @@ var SoundParser = function (file, container) {
 		var freqByteData = new Uint8Array(self.analyser.frequencyBinCount);
 		self.analyser.getByteFrequencyData(freqByteData);
 		d = freqByteData;
+		console.log(self.analyser);
+		console.log(self.source);
+		console.log(freqByteData);
+		var t = 0;
+		for (var i = 0; i < 1024; i++) {
+			t += freqByteData[i];
+		}
+		console.log('t:', t);
 		return freqByteData;
 	}
 	
@@ -38,8 +46,6 @@ var SoundParser = function (file, container) {
 	self.stop = function () {
 		self.audio.pause();
 	}
-	
-	console.log('self:', self);
 	
 	return self;
 

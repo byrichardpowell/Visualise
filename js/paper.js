@@ -6,13 +6,15 @@ circles = function(count, size) {
 	var items = [];
 
 	// The size of the smallest circle
-	size = ( ( ( view.viewSize.height * size ) / 2 ) / count )
+	size = ( ( ( view.viewSize.height * size ) / 2 ) / count );
 
 	// Draw each item
 	for (var i = count; i>=0; i--) {
-		
-		items[i] = new Path.Circle( view.center, size * i );
-		items[i].fillColor = new RgbColor(0.1 * i, 0.35, 0.7, 1); 
+
+		var thisSize = size * i;
+
+		items[i] = new Path.Rectangle( view.center - (thisSize), (size * i) * 2 );
+		items[i].fillColor = new RgbColor( ( 1 / count ) * i, Math.random() * i, Math.random() * i, 1 / (count * 0.75)); 
 
 	}
 
@@ -21,39 +23,23 @@ circles = function(count, size) {
 }
 
 
-rings = circles(10, 0.95); 
+rings = circles(52, 0.8); 
+SoundDataStep = Math.floor( 1024 / rings.length ); 
 
-console.log( rings[0] );
-
-// Clear the canvas between frames
-// Clear the canvas between frames
-var clearView = function(opacity) {
-
-	var point = new Point(0,0)
-	var size = new Size(view.viewSize.width, view.viewSize.height);
-
-	var blank = new Path.Rectangle(point, size)
-	blank.fillColor = 'black'; 
-
-}
-
-
-oldSize = 2
 
 
 function onFrame(event) {
 
-	var newSize = Math.random() * 8
-	var sizeModifier = Math.abs(newSize - oldSize);
-
-	oldSize = newSize;
+	var SoundData = MySound.getRawData();
 
     // Each frame, change the fill color of the path slightly by
     // adding 1 to its hue:
     $.each( rings, function(i, ring) {
-    
-    	ring.scale( 1 );
-    	ring.fillColor.hue += 1;
+
+    	var thisData = SoundData[SoundDataStep * i] / 1024;
+
+    	ring.rotate( thisData * 180 );
+    	ring.fillColor.hue += (thisData * 10);
 
     })
 

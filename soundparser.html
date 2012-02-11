@@ -5,27 +5,7 @@
 	<script type="text/javascript" src="js/libs/jquery.js"></script>
 	<script type="text/javascript" src="js/libs/paper.js"></script>
 	<script type="text/javascript" src="js/soundparser.js"></script>
-	<script type="text/javascript">
-	var MySound;
-	window.addEventListener('load', function () {
-		
-		console.log('ready');
-		MySound = new SoundParser('music.ogg?t' + Math.random());
-//		MySound.start();
-		
-		// Display Lapsed time to make sure audio is referenced properly
-		var currentTimeNode = document.querySelector('#current-time');
-		MySound.audio.addEventListener('timeupdate', function(e) {
-		  var currTime = this.currentTime;
-		  currentTimeNode.textContent = parseInt(currTime / 60) + ':' + parseInt(currTime % 60);
-		}, false);
-		
-		setTimeout(function () {
-			MySound.getRawData();
-		}, 500);
-		
-	}, false);
-	</script>
+
 </head>
 <body>
 
@@ -37,6 +17,50 @@
 <br/><br/>
 
 <canvas id="visual"></canvas>
+
+<br/><br/>
+
+<div id="sound-con"></div>
+
+<script type="text/javascript">
+var MySound;
+(function () {
+	MySound = new SoundParser('music.ogg', 'sound-con');
+})();
+window.addEventListener('load', function () {
+	
+	console.log('ready');
+	MySound.init();
+//		MySound.start();
+	
+	// Display Lapsed time to make sure audio is referenced properly
+	var currentTimeNode = document.querySelector('#current-time');
+	MySound.audio.addEventListener('timeupdate', function(e) {
+	  var currTime = this.currentTime;
+	  currentTimeNode.textContent = parseInt(currTime / 60) + ':' + parseInt(currTime % 60);
+	}, false);
+	
+	var canvas = document.querySelector('#visual');
+	var cx = canvas.getContext('2d');
+	canvas.width = 1024;
+	canvas.height = 240;
+	setInterval(function () {
+		cx.clearRect(0, 0, canvas.width, canvas.height);
+		var d = MySound.getRawData();
+		cx.beginPath();
+		for (var i = 0; i < 1024; i++) {
+			cx.moveTo(i, 0);
+			cx.lineTo(i, d[i]);
+			cx.stroke();
+		}
+	}, 10);
+	
+	setTimeout(function () {
+		MySound.getRawData();
+	}, 500);
+	
+}, false);
+</script>
 
 </body>
 </html>

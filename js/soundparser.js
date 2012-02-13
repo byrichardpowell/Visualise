@@ -8,10 +8,15 @@ var SoundParser = function (file, container) {
 	self.getAverageVolume = function () {
 		return 0;
 	}
-	self.getFrequencyData = function () {
-		var freqByteData = new Uint8Array(self.analyser.frequencyBinCount);
-		self.analyser.getByteFrequencyData(freqByteData);
-		return freqByteData;
+	self.getFrequencyData = function (float) {
+		if (!float) {
+			var data = new Uint8Array(self.analyser.frequencyBinCount);
+			self.analyser.getByteFrequencyData(data);
+		} else {
+			var data = new Float32Array(self.analyser.frequencyBinCount);
+			self.analyser.getFloatFrequencyData(data);
+		}
+		return data;
 	}
 	self.getRawData = function () {
 		return self.getFrequencyData();
@@ -25,6 +30,19 @@ var SoundParser = function (file, container) {
 			t += d[i];
 		}
 		return t / n;
+	}
+	self.getFrequencyPercentages = function () {
+		var a = [];
+		var min = self.analyser.minDecibels;
+		var offset = Math.abs(min);
+		var max = self.analyser.maxDecibels;
+		var diff = Math.abs(max - min);
+		var scale = diff / 100;
+		var d = self.getFrequencyData(true);
+		for (var i = 0; i < 1024; i+= 1) {
+			a.push((d[i] + offset) * scale);
+		}
+		return a;
 	}
 	
 	//
@@ -115,21 +133,35 @@ SoundParserAnimateObject = function (a, p) {
 	return self;
 	
 }
+var bits = 1;
 SoundParser.prototype.animations = {};
 SoundParser.prototype.animations.default = function (ani) {
 	
 	var cx = ani.context2d;
 	cx.clearRect(0, 0, ani.canvas.width, ani.canvas.height);
-	var d = ani.parser.getFrequencyData();
-	cx.lineWidth = 4;
-	for (var i = 0; i < 1024; i += 8) {
-		cx.beginPath();
-		//cx.strokeStyle = colors[Math.round(Math.random() * colors.length)]
-		//cx.strokeStyle = Math.max(colors.length - 1, colors[Math.round(d[i] / 30)]);
+	var d = ani.parser.getFrequencyPercentages();
+	
+	
+	cx.lineWidth = bits;
+	cx.strokeStyle = "#090";
+	
+	// Bottom
+	cx.beginPath();
+	for (var i = 0, l = d.length; i < l; i += bits) {
 		cx.moveTo(i, ani.canvas.height - 0);
-		cx.lineTo(i, ani.canvas.height - d[i]);
-		cx.stroke();
+		cx.lineTo(i, ani.canvas.height - (d[i] * (ani.canvas.height / 100)));
 	}
+	cx.stroke();
+	
+	// Top
+	cx.beginPath();
+	for (var i = d.length; i > 0; i -= bits) {
+		cx.moveTo(d.length - i, 0);
+		cx.lineTo(d.length - i, (d[i] * (ani.canvas.height / 100)));
+		
+	}
+	
+	cx.stroke();
 	
 }
 

@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>SoundParser</title>
-	<script type="text/javascript" src="js/soundparser.js?r=8"></script>
+	<script type="text/javascript" src="js/soundparser.js?r=25"></script>
 	<style type="text/css">
 	#visual {
 		border: 1px solid #999;
@@ -47,14 +47,34 @@ window.addEventListener('load', function () {
 	canvas.height = 320;
 	
 	MySound.animate({
-		name: 'scale',
+		name: 'default',
 		fps: 60, 
 		width: 1024,
 		height: 300,
 		canvas: canvas
 	});
 	
+
+	
 }, false);
+
+	function blah () {
+		var a = [];
+		var d = MySound.getFrequencyData(true);
+		var min = MySound.analyser.minDecibels;
+		var offset = Math.abs(min);
+		var max = MySound.analyser.maxDecibels;
+		var diff = Math.abs(max - min);
+		var scale = diff / 100;
+		for (var i = 0; i < 1024; i+= 512) {
+			a.push({
+				val: d[i] + offset,
+				perc: (d[i] + offset) * scale
+			});
+		}
+		console.log(a);
+	}
+
 </script>
 
 </body>
